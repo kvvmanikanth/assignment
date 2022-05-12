@@ -1,0 +1,18 @@
+---
+- name: Play to get the gathre facts content
+  hosts: localhost
+  gather_facts: true
+  tasks:
+  - name: Play to get the gathre facts content of ec2 instance
+    # ec2_instance_facts:
+    ec2_instance_info:
+      instance_ids:
+        - i-12345678
+    register: ec2_metadata
+  - name: print ansible_info
+    debug:
+     var: ec2_metadata
+  - name: Copy ansible facts to a file.
+    copy:
+     content: "{{ ec2_metadata }}"
+     dest: /tmp/ec2_metadata_details.json
